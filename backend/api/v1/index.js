@@ -56,5 +56,14 @@ module.exports = function (fastify, opts, done) {
         }
     })
 
+    fastify.put('/cookies', async (req, reply) => {
+        try {
+            fastify.ytdlAgent = ytdl.createAgent(req.body)
+            return reply.code(204).send()
+        } catch (error) {
+            return utils.returnGeneralError(error, reply)
+        }
+    })
+
     done()
 }
