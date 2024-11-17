@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Ultra&display=swap');
+
+:root {
+    --primary-rgb: 255, 106, 0;
+    --secondary-rgb: 255, 255, 255;
+}
+
+body {
+    font-family: "K2D", sans-serif;
+    background-color: rgb(var(--secondary-rgb));
+    margin: 0;
+}
+
+html {
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.header {
+    background-color: rgb(var(--primary-rgb));
+    color: rgb(var(--secondary-rgb));
+    padding: 1rem 5rem;
+}
+
+.content {
+    margin-inline: auto;
+    padding-inline: 2rem;
+    margin-top: 5rem;
+    margin-bottom: 7rem;
+    width: 80%;
+}
+
+.content>form {
+    margin-bottom: 5rem;
+}
+
+.content>form label {
+    font-size: 1.5em;
+    color: rgb(var(--primary-rgb));
+}
+
+.content>form input[type="text"] {
+    margin-top: 1rem;
+    width: 90%;
+    padding: 1rem;
+    font-size: 1.35em;
+    color: rgb(var(--primary-rgb));
+    border: 0.25rem solid rgb(var(--primary-rgb));
+    border-radius: 10px;
+}
+
+.content>form input[type="text"]:-internal-autofill-selected {
+    background-color: transparent;
+    color: rgb(var(--primary-rgb));
+}
+
+.content>form input[type="submit"] {
+    margin-top: 1.25rem;
+    margin-right: 0.75rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.35em;
+    color: rgb(var(--secondary-rgb));
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(var(--primary-rgb));
+}
+
+.content>form input[type="text"]:focus-visible,
+.content>form input[type="submit"]:hover {
+    box-shadow: 0px 0px 10px rgb(var(--primary-rgb));
+    outline: none;
+}
+
+.content>form p {
+    color: rgb(var(--primary-rgb));
+    margin: 0px;
+    margin-top: 1rem;
+    font-size: 1.25em;
+}
+
+.content>p {
+    color: rgb(var(--primary-rgb));
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.content>main {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+@media all and (max-width: 768px) {
+    .content>main {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+.content>main img {
+    width: 90%;
+    margin-right: 1rem;
+    margin-bottom: 1.25rem;
+    border: 0.2rem solid rgb(var(--primary-rgb));
+    border-radius: 15px;
+}
+
+.content>main div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.content>main p {
+    margin: 0px;
+    margin-bottom: 0.75rem;
+    color: rgb(var(--primary-rgb));
+    font-size: 1.25em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.content>main button {
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.35em;
+    color: rgb(var(--secondary-rgb));
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(var(--primary-rgb));
+}
+
+.content>main button:hover {
+    box-shadow: 0px 0px 10px rgb(var(--primary-rgb));
+}
+
+.k2d-thin {
+    font-family: "K2D", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.k2d-extralight {
+    font-family: "K2D", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.k2d-light {
+    font-family: "K2D", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.k2d-regular {
+    font-family: "K2D", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.k2d-medium {
+    font-family: "K2D", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.k2d-semibold {
+    font-family: "K2D", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.k2d-bold {
+    font-family: "K2D", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.k2d-extrabold {
+    font-family: "K2D", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.k2d-thin-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.k2d-extralight-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 200;
+    font-style: italic;
+}
+
+.k2d-light-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.k2d-regular-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.k2d-medium-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.k2d-semibold-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.k2d-bold-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.k2d-extrabold-italic {
+    font-family: "K2D", sans-serif;
+    font-weight: 800;
+    font-style: italic;
+}
+  

@@ -1,0 +1,30 @@
+{
+  "name": "etwa-backend",
+  "version": "1.0.0",
+  "description": "Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "dev-local": "nodemon app.js --local=true",
+    "start": "node app.js"
+  },
+  "author": "Mr. Ryto",
+  "license": "ISC",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.15.1",
+    "@fastify/compress": "^8.0.1",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/one-line-logger": "^1.4.0",
+    "@fastify/rate-limit": "^10.2.0",
+    "date-and-time": "^3.4.1",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.1.0",
+    "http-errors": "^2.0.0",
+    "minimist": "^1.2.8",
+    "to-boolean": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
