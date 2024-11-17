@@ -11,6 +11,7 @@ module.exports = function (fastify, opts, done) {
             let isValid = ytdl.validateURL(req.query.url)
             return reply.code(200).send({isValid})
         } catch (error) {
+            fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
         }
     })
@@ -28,6 +29,7 @@ module.exports = function (fastify, opts, done) {
                 upload_date: info.videoDetails.publishDate
             })
         } catch (error) {
+            fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
         }
     })
@@ -52,6 +54,7 @@ module.exports = function (fastify, opts, done) {
     
             return stream
         } catch (error) {
+            fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
         }
     })
@@ -61,6 +64,7 @@ module.exports = function (fastify, opts, done) {
             fastify.ytdlAgent = ytdl.createAgent(req.body)
             return reply.code(204).send()
         } catch (error) {
+            fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
         }
     })
