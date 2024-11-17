@@ -20,7 +20,7 @@ module.exports = function (fastify, opts, done) {
             if (!req.query.url) {
                 throw BadRequest('Query [url] is required')
             }
-            let info = await ytdl.getInfo(req.query.url)
+            let info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
             return reply.code(200).send({
                 thumbnail_url: info.videoDetails.thumbnails[0].url,
                 title: info.videoDetails.title,
@@ -38,10 +38,11 @@ module.exports = function (fastify, opts, done) {
                 throw BadRequest('Query [url] is required')
             }
     
-            const info = await ytdl.getInfo(req.query.url)
+            const info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
             const stream = ytdl(req.query.url, {
                 filter: 'audioonly',
-                quality: 'highestaudio'
+                quality: 'highestaudio',
+                agent: fastify.ytdlAgent
             })
             
             reply

@@ -1,4 +1,4 @@
-const { Forbidden } = require('http-errors')
+const ytdl = require('@distube/ytdl-core')
 
 async function loadPlugins(fastify) {
     fastify.register(require('@fastify/cors'), {
@@ -13,6 +13,7 @@ async function loadPlugins(fastify) {
         hook: 'preHandler',
         keyGenerator: (req) => req.ip
     })
+    fastify.decorate('ytdlAgent', () => ytdl.createAgent(JSON.parse(process.env.YTDL_COOKIES)))
     fastify.register(require('@fastify/compress'))
 }
 
