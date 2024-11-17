@@ -13,7 +13,7 @@ async function loadPlugins(fastify) {
         hook: 'preHandler',
         keyGenerator: (req) => req.ip
     })
-    fastify.decorate('ytdlAgent', () => ytdl.createAgent(JSON.parse(process.env.YTDL_COOKIES)))
+    fastify.decorate('ytdlAgent', ytdl.createAgent(JSON.parse(process.env.YTDL_COOKIES)))
     fastify.register(require('@fastify/compress'))
 }
 
