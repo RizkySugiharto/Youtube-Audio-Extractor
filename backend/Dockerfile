@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:22
 
 WORKDIR /backend
 
@@ -7,5 +7,12 @@ COPY . /backend
 RUN npm install
 
 EXPOSE 8080
+
+ENV NODE_ENV='development'
+ENV API_VERSION=1
+ENV PORT=3000
+ENV ALLOWED_ORIGINS='*'
+ENV ALLOWED_REQUEST_PER_MINUTE=100
+ENV YTDL_COOKIES='[{}]'
 
 CMD [ "npm", "start" ]
