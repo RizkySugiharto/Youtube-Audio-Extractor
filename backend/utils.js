@@ -19,15 +19,24 @@ function returnGeneralError(error, reply) {
         }[statusCode] || error)
 }
 
-function createYtdlAgent(caches) {
-    return ytdl.createAgent(caches, {
-        pipelining: 3,
-        localAddress: getRandomIPv4()
-    })
+function convertToReadableErr(error) {
+    const regex = new RegExp(`${process.cwd()}\\/(?!node_modules\\/)([\\/\\w-_\\.]+\\.js):(\\d*):(\\d*)`)
+    const [, filename, line, column] = error.stack.match(regex);
+
+    return `${filename}:${line}:${column} ${error}`;
+}
+
+function createYtdlAgent(cookies) {
+    // {
+    //     pipelining: 3,
+    //     localAddress: getRandomIPv4()
+    // }
+    return ytdl.createAgent(cookies)
 }
 
 module.exports = {
     isDevMode,
     returnGeneralError,
-    createYtdlAgent
+    createYtdlAgent,
+    convertToReadableErr
 }
