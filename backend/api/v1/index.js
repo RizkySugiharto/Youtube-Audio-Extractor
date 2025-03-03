@@ -1,5 +1,5 @@
 const utils = require('../../utils')
-const { NotFound, BadRequest } = require('http-errors')
+const { BadRequest } = require('http-errors')
 const ytdl = require('@distube/ytdl-core')
 
 module.exports = function (fastify, opts, done) {
@@ -41,18 +41,14 @@ module.exports = function (fastify, opts, done) {
             }
     
             const info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
-            const stream = ytdl(req.query.url, {
-                filter: 'audioonly',
-                quality: 'highestaudio',
-                agent: fastify.ytdlAgent
-            })
+            const formats = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' })
             
-            reply
-                .header('content-type', 'audio/mpeg')
-                .header('content-disposition', `attachment; filename="${encodeURI(info.videoDetails.title)}.mp3"`)
-                .code(200)
+            // reply
+            //     .header('content-type', 'audio/mpeg')
+            //     .header('content-disposition', `attachment; filename="${encodeURI(info.videoDetails.title)}.mp3"`)
+            //     .code(200)
     
-            return stream
+            return reply.redirect(formats.url);
         } catch (error) {
             fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
@@ -61,7 +57,7 @@ module.exports = function (fastify, opts, done) {
 
     fastify.put('/cookies', async (req, reply) => {
         try {
-            fastify.ytdlAgent = ytdl.createAgent(req.body)
+            fastify.ytdlAgent = utils.createYtdlAgent(req.body)
             return reply.code(204).send()
         } catch (error) {
             fastify.log.error(error)
