@@ -32,8 +32,8 @@ async function loadPlugins(fastify) {
         rotate: function() {
             this.current = (this.current + 1) % this.addresses.length
         },
-        getAddress: function() {
-            return this.addresses[this.current]
+        getUrl: function() {
+            return `http://${this.addresses[this.current]}`
         }
     })
     fastify.register(require('@fastify/compress'))

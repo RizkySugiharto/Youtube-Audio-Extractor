@@ -32,11 +32,12 @@ function setupYtdlAgent(fastify, cookies) {
     //     pipelining: 3,
     //     localAddress: getRandomIPv4()
     // }
-    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getAddress()}, cookies)
+    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getUrl()}, cookies)
 }
 
 function refreshYtdlAgent(fastify) {
-    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getAddress()}, fastify.ytdlAgent.jar.toJSON().cookies)
+    fastify.proxyManager.rotate();
+    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getUrl()}, fastify.ytdlAgent.jar.toJSON().cookies)
 }
 
 module.exports = {
