@@ -61,12 +61,22 @@ module.exports = function (fastify, opts, done) {
 
     fastify.put('/cookies', async (req, reply) => {
         try {
-            fastify.ytdlAgent = utils.createYtdlAgent(req.body)
+            utils.setupYtdlAgent(fastify, req.body)
             return reply.code(204).send()
         } catch (error) {
             fastify.log.error(utils.convertToReadableErr(error))
             return utils.returnGeneralError(error, reply)
         }
+    })
+    
+    fastify.put('/refresh-agent', async (req, reply) => {
+        try {
+            utils.refreshYtdlAgent(fastify)
+            return reply.code(204).send()
+        } catch (error) {
+            fastify.log.error(utils.convertToReadableErr(error))
+            return utils.returnGeneralError(error, reply)
+        }    
     })
 
     done()

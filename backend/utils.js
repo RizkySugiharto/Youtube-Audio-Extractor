@@ -1,5 +1,6 @@
 const { BadRequest, InternalServerError } = require('http-errors')
 const ytdl = require('@distube/ytdl-core')
+const fastify = require('fastify')
 
 function getRandomIPv4() {
     return (Math.floor(Math.random() * 255) + 1)+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))
@@ -26,17 +27,22 @@ function convertToReadableErr(error) {
     return `${filename}:${line}:${column} ${error}`;
 }
 
-function createYtdlAgent(cookies) {
+function setupYtdlAgent(fastify, cookies) {
     // {
     //     pipelining: 3,
     //     localAddress: getRandomIPv4()
     // }
-    return ytdl.createAgent(cookies)
+    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getAddress()}, cookies)
+}
+
+function refreshYtdlAgent(fastify) {
+    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getAddress()}, fastify.ytdlAgent.jar.toJSON().cookies)
 }
 
 module.exports = {
     isDevMode,
     returnGeneralError,
-    createYtdlAgent,
+    setupYtdlAgent,
+    refreshYtdlAgent,
     convertToReadableErr
 }
