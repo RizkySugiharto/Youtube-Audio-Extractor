@@ -41,14 +41,18 @@ module.exports = function (fastify, opts, done) {
             }
     
             const info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
-            const formats = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' })
+            const stream = ytdl(req.query.url, {
+                filter: 'audioonly',
+                quality: 'highestaudio',
+                agent: fastify.ytdlAgent
+            })
             
-            // reply
-            //     .header('content-type', 'audio/mpeg')
-            //     .header('content-disposition', `attachment; filename="${encodeURI(info.videoDetails.title)}.mp3"`)
-            //     .code(200)
+            reply
+                .header('content-type', 'audio/mpeg')
+                .header('content-disposition', `attachment; filename="${encodeURI(info.videoDetails.title)}.mp3"`)
+                .code(200)
     
-            return reply.redirect(formats.url);
+            return stream
         } catch (error) {
             fastify.log.error(error)
             return utils.returnGeneralError(error, reply)
