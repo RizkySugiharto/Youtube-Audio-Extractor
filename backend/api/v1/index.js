@@ -3,12 +3,12 @@ const { BadRequest } = require('http-errors')
 const ytdl = require('@distube/ytdl-core')
 
 module.exports = function (fastify, opts, done) {
-    fastify.get('/check', async (req, reply) => {
+    fastify.post('/check', async (req, reply) => {
         try {
-            if (!req.query.url) {
-                throw BadRequest('Query [url] is required')
+            if (!req.body || !req.body.url) {
+                throw BadRequest('data [url] is required')
             }
-            let isValid = ytdl.validateURL(req.query.url)
+            let isValid = ytdl.validateURL(req.body.url)
             return reply.code(200).send({isValid})
         } catch (error) {
             fastify.log.error(utils.convertToReadableErr(error))
@@ -16,12 +16,12 @@ module.exports = function (fastify, opts, done) {
         }
     })
 
-    fastify.get('/extract', async (req, reply) => {
+    fastify.post('/extract', async (req, reply) => {
         try {
-            if (!req.query.url) {
-                throw BadRequest('Query [url] is required')
+            if (!req.body || !req.body.url) {
+                throw BadRequest('data [url] is required')
             }
-            let info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
+            let info = await ytdl.getInfo(req.body.url, { agent: fastify.ytdlAgent })
             return reply.code(200).send({
                 thumbnail_url: info.videoDetails.thumbnails[0].url,
                 title: info.videoDetails.title,
@@ -34,14 +34,18 @@ module.exports = function (fastify, opts, done) {
         }
     })
 
-    fastify.get('/download', async (req, reply) => {
+    fastify.post('/download', async (req, reply) => {
         try {
-            if (!req.query.url) {
-                throw BadRequest('Query [url] is required')
+            if (!req.body || !req.body.url) {
+                throw BadRequest('data [url] is required')
+            }
+
+            if (!ytdl.validateURL(req.body.url)) {
+                throw BadRequest('Url is not valid')
             }
     
-            const info = await ytdl.getInfo(req.query.url, { agent: fastify.ytdlAgent })
-            const stream = ytdl(req.query.url, {
+            const info = await ytdl.getInfo(req.body.url, { agent: fastify.ytdlAgent })
+            const stream = ytdl(req.body.url, {
                 filter: 'audioonly',
                 quality: 'highestaudio',
                 agent: fastify.ytdlAgent,
@@ -59,9 +63,11 @@ module.exports = function (fastify, opts, done) {
         }
     })
 
-    fastify.put('/cookies', async (req, reply) => {
+    fastify.put('/cookies', {
+        preHandler: [fastify.authAdmin]
+    }, async (req, reply) => {
         try {
-            utils.setupYtdlAgent(fastify, req.body)
+            fastify.ytdlAgent = ytdl.createAgent(req.body)
             return reply.code(204).send()
         } catch (error) {
             fastify.log.error(utils.convertToReadableErr(error))
