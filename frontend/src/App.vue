@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <div class="header">
-            <h1 class="k2d-extrabold">Youtube Video Extractor</h1>
+            <h1 class="k2d-extrabold">Youtube Audio Extractor</h1>
         </div>
         <div class="content">
             <form @submit="submit">
