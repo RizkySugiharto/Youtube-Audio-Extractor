@@ -44,7 +44,7 @@ module.exports = function (fastify, opts, done) {
             const stream = ytdl(req.query.url, {
                 filter: 'audioonly',
                 quality: 'highestaudio',
-                agent: fastify.ytdlAgent
+                agent: fastify.ytdlAgent,
             })
             
             reply
@@ -67,16 +67,6 @@ module.exports = function (fastify, opts, done) {
             fastify.log.error(utils.convertToReadableErr(error))
             return utils.returnGeneralError(error, reply)
         }
-    })
-    
-    fastify.put('/refresh-agent', async (req, reply) => {
-        try {
-            utils.refreshYtdlAgent(fastify)
-            return reply.code(204).send()
-        } catch (error) {
-            fastify.log.error(utils.convertToReadableErr(error))
-            return utils.returnGeneralError(error, reply)
-        }    
     })
 
     done()

@@ -21,29 +21,32 @@ function returnGeneralError(error, reply) {
 }
 
 function convertToReadableErr(error) {
-    const regex = new RegExp(`${process.cwd()}\\/(?!node_modules\\/)([\\/\\w-_\\.]+\\.js):(\\d*):(\\d*)`)
-    const [, filename, line, column] = error.stack.match(regex);
+    // const regex = new RegExp(/\/([\/\w-_\.]+\.js):(\d*):(\d*)/)
+    // const [, filename, line, column] = error.stack.match(regex);
 
-    return `${filename}:${line}:${column} ${error}`;
+    // return `${filename}:${line}:${column} ${error}`;
+    return `${error}`;
 }
 
 function setupYtdlAgent(fastify, cookies) {
-    // {
-    //     pipelining: 3,
-    //     localAddress: getRandomIPv4()
-    // }
-    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getUrl()}, cookies)
-}
-
-function refreshYtdlAgent(fastify) {
-    fastify.proxyManager.rotate();
-    fastify.ytdlAgent = ytdl.createProxyAgent({ uri: fastify.proxyManager.getUrl()}, fastify.ytdlAgent.jar.toJSON().cookies)
+    // fastify.ytdlAgent = ytdl.createProxyAgent({
+    //     uri: process.env.PROXY_URI,
+    //     requestTls: {
+    //         rejectUnauthorized: false
+    //     },
+    //     proxyTls: {
+    //         rejectUnauthorized: false
+    //     },
+    //     connect: {
+    //         rejectUnauthorized: false
+    //     },
+    // }, cookies)
+    fastify.ytdlAgent = ytdl.createAgent(cookies);
 }
 
 module.exports = {
     isDevMode,
     returnGeneralError,
     setupYtdlAgent,
-    refreshYtdlAgent,
     convertToReadableErr
 }
